@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IIC 9.0 Induction Portal | SIT Tumkur</title>
+  
+  <!-- Web Fonts & Confetti -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --primary-navy: #0e2447;
+      --accent-yellow: #f7b32b;
+      --accent-gold: #df9e00;
+      --soft-bg: #fdfbf7;
+      --card-bg: #ffffff;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --error-bg: #fff5f5;
+      --error-border: #feb2b2;
+      --error-text: #c53030;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at 10% 20%, #fefcf3 0%, #f4f6fa 90%);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 30px 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      margin: auto;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 24px;
+      box-shadow: 0 15px 40px rgba(14, 36, 71, 0.08);
+      border: 1px solid rgba(247, 179, 43, 0.25);
+      padding: 36px 28px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(247, 179, 43, 0.15);
+      color: #9a6500;
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.6px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      color: var(--primary-navy);
+      font-size: 1.95rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 26px;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 18px;
+    }
+
+    label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--accent-yellow);
+      box-shadow: 0 0 0 3px rgba(247, 179, 43, 0.2);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 15px 22px;
+      border-radius: 12px;
+      border: none;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-navy);
+      color: #ffffff;
+      margin-top: 10px;
+    }
+
+    .btn-primary:hover {
+      background-color: #17386d;
+      transform: translateY(-1px);
+    }
+
+    .btn-whatsapp {
+      background-color: #25d366;
+      color: #ffffff;
+      margin-top: 14px;
+      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.28);
+    }
+
+    .btn-whatsapp:hover {
+      background-color: #20ba5a;
+      transform: translateY(-1px);
+    }
+
+    .btn-download {
+      background-color: var(--accent-yellow);
+      color: var(--primary-navy);
+      margin-top: 18px;
+      box-shadow: 0 4px 15px rgba(247, 179, 43, 0.35);
+    }
+
+    .btn-download:hover {
+      background-color: var(--accent-gold);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background-color: #f1f5f9;
+      color: var(--text-dark);
+      margin-top: 14px;
+      width: auto;
+      padding: 10px 24px;
+    }
+
+    .btn-secondary:hover {
+      background-color: #e2e8f0;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .not-selected-box {
+      background: var(--error-bg);
+      border: 1.5px solid var(--error-border);
+      border-radius: 16px;
+      padding: 24px 20px;
+      margin-top: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .not-selected-box h3 {
+      color: var(--error-text);
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .not-selected-box p {
+      color: #4a5568;
+      font-size: 0.96rem;
+      line-height: 1.55;
+    }
+
+    .message-box {
+      text-align: left;
+      background: #fbfcfe;
+      border-radius: 16px;
+      padding: 22px;
+      margin: 24px 0;
+      font-size: 0.95rem;
+      line-height: 1.65;
+      border-left: 4px solid var(--accent-yellow);
+      box-shadow: inset 0 0 12px rgba(0,0,0,0.02);
+    }
+
+    .message-box p {
+      margin-bottom: 14px;
+    }
+
+    .message-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .member-details-card {
+      background: #f0f7ff;
+      border: 1px solid #c9e2ff;
+      border-radius: 12px;
+      padding: 12px 18px;
+      margin: 18px 0;
+      display: flex;
+      justify-content: space-around;
+      font-size: 0.92rem;
+      color: var(--primary-navy);
+      font-weight: 600;
+    }
+
+    .canvas-wrapper {
+      margin: 22px 0;
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    canvas {
+      width: 100%;
+      max-width: 440px;
+      height: auto;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .share-prompt {
+      background: #fffbeb;
+      border: 1.5px dashed #f59e0b;
+      padding: 14px 18px;
+      border-radius: 12px;
+      margin: 18px 0 12px 0;
+      color: #92400e;
+      font-weight: 700;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- LOGIN / RECRUITMENT VERIFICATION CARD -->
+    <div id="loginCard" class="card">
+      <span class="badge">Recruitment Results 9.0</span>
+      <h1>Institution's Innovation Council</h1>
+      <h2>Siddaganga Institute of Technology, Tumkur</h2>
+
+      <form id="verificationForm">
+        <div class="form-group">
+          <label for="studentName">Full Name</label>
+          <input type="text" id="studentName" placeholder="Enter your full name as registered" required />
+        </div>
+        <div class="form-group">
+          <label for="studentUSN">USN (University Seat Number)</label>
+          <input type="text" id="studentUSN" placeholder="e.g. 1SI25IS064 or 4SI26EC046" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Check Status & Login</button>
+      </form>
+
+      <!-- Status rejection banner -->
+      <div id="rejectionCard" class="not-selected-box hidden">
+        <h3>Selection Status</h3>
+        <p><strong>Sorry to say this, you are not selected. Better luck next time!</strong></p>
+        <p style="margin-top: 8px;">We sincerely appreciate your effort, passion, and time during the recruitment drive. Don't be discouraged—keep building, innovating, and applying for our hackathons and initiatives!</p>
+        <button type="button" onclick="resetForm()" class="btn btn-secondary">Try Another USN</button>
+      </div>
+    </div>
+
+    <!-- CONGRATULATIONS & WELCOME DASHBOARD -->
+    <div id="welcomeDashboard" class="card hidden">
+      <span class="badge">🎉 Selected Member</span>
+      <h1 id="welcomeGreeting">Welcome to Team IIC 9.0! 🚀</h1>
+      <h2>Institution's Innovation Council | SIT Tumkur</h2>
+
+      <!-- Member meta pill -->
+      <div class="member-details-card" id="memberDetails">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- Official Welcome Message -->
+      <div class="message-box">
+        <p><strong>🎉 WELCOME TO TEAM IIC 9.0! 🚀</strong><br>
+        <strong>Institution's Innovation Council | SIT Tumkur</strong></p>
+
+        <p>Congratulations on becoming a part of the IIC 9.0 family!</p>
+
+        <p>Your selection marks the beginning of an exciting journey filled with innovation, creativity, entrepreneurship and endless opportunities.</p>
+
+        <p>You are now part of a community where young minds come together to transform ideas into real-world solutions. At IIC, we believe that every idea has the potential to create an impact, and every individual has the ability to make a difference.</p>
+
+        <p>As a new member, you will get opportunities to participate in ideathons, workshops, innovation challenges, entrepreneurial activities and various events that help you develop your skills, confidence and leadership qualities.</p>
+
+        <p>This is more than just joining a team; it's about learning together, growing together and achieving something extraordinary.</p>
+
+        <p>Get ready to explore new possibilities, challenge your limits and turn your ideas into reality!</p>
+
+        <p><strong>🌟 YOUR JOURNEY STARTS HERE!</strong><br>
+        <em>Think Big. Create Boldly. Innovate Fearlessly.</em></p>
+
+        <p>❤️ Once again, a warm welcome to all our new members!<br>
+        <strong>TEAM IIC 9.0</strong><br>SIT Tumkur</p>
+      </div>
+
+      <!-- Personalized Poster Canvas -->
+      <div class="canvas-wrapper">
+        <canvas id="posterCanvas"></canvas>
+      </div>
+
+      <!-- Download Button -->
+      <button id="downloadBtn" class="btn btn-download">
+        📥 Download Your Personalized Welcome Poster
+      </button>
+
+      <!-- WhatsApp and Instagram Story Sharing Notice -->
+      <div class="share-prompt">
+        📲 Add this welcome poster to your WhatsApp story and Instagram story!
+      </div>
+
+      <!-- WhatsApp Group Join Link -->
+      <a id="whatsappBtn" href="https://chat.whatsapp.com/H7aR2PG53cg3r6p3EBvWMz" target="_blank" class="btn btn-whatsapp">
+        💬 Join Team IIC 9.0 WhatsApp Group
+      </a>
+    </div>
+  </div>
+
+  <script>
+    /* ============================================================
+       1. DATABASE OF ALL 32 SHORTLISTED CANDIDATES FROM EXCEL
+       ============================================================ */
+    const SHORTLISTED_MEMBERS = [
+      { name: "Nikhil S", usn: "1SI25IS064", dept: "ISE", sem: 3 },
+      { name: "NP Dhanya", usn: "4SI25EC018", dept: "ECE", sem: 1 },
+      { name: "KR Vikas", usn: "1SI25CS089", dept: "CSE", sem: 3 },
+      { name: "KL Mukesh", usn: "1SI25IS039", dept: "ISE", sem: 3 },
+      { name: "Divakar Gowda N", usn: "1SI25EI011", dept: "EI", sem: 3 },
+      { name: "Mannu Kumar", usn: "4SI26IS114", dept: "ISE", sem: 1 },
+      { name: "Pavani Shetty L", usn: "1SI25CH034", dept: "CH", sem: 3 },
+      { name: "Akkamma V G", usn: "1SI25ME007", dept: "ME", sem: 3 },
+      { name: "Vinay Kumar", usn: "1SI25CV056", dept: "CV", sem: 3 },
+      { name: "Anand Raj Garv", usn: "1SI25CS021", dept: "CSE", sem: 3 },
+      { name: "Santhosh T P", usn: "1SI25EI046", dept: "EI", sem: 3 },
+      { name: "Nehal P G", usn: "1SI25EC068", dept: "ECE", sem: 3 },
+      { name: "Rachana M", usn: "4SI26IM023", dept: "IM", sem: 1 },
+      { name: "Prahas Hubballi", usn: "4SI26CS033", dept: "CSE", sem: 1 },
+      { name: "Ramya K", usn: "1SI25EI042", dept: "EI", sem: 3 },
+      { name: "Pruthvi K A", usn: "1SI25ET035", dept: "ET", sem: 3 },
+      { name: "Deepak B Holeyachi", usn: "1SI25ME029", dept: "ME", sem: 3 },
+      { name: "Yash Gupta", usn: "1SI25CS280", dept: "CSE", sem: 3 },
+      { name: "Chaithra N Padekanur", usn: "4SI26IS422", dept: "ISE", sem: 1 },
+      { name: "K Bhagavan", usn: "1SI25EE014", dept: "EEE", sem: 3 },
+      { name: "Manikanth N S", usn: "1SI25ME059", dept: "ME", sem: 3 },
+      { name: "Vishnu B O", usn: "1SI25ET060", dept: "ET", sem: 3 },
+      { name: "Ameena", usn: "1SI25BT001", dept: "BT", sem: 3 },
+      { name: "U S Ujwal", usn: "1SI25CH057", dept: "CH", sem: 3 },
+      { name: "Rohith G P", usn: "4SI26ME078", dept: "ME", sem: 1 },
+      { name: "Geetha Priya", usn: "4SI25EI013", dept: "EIE", sem: 3 },
+      { name: "Sindhushree K P", usn: "4SI25ET0047", dept: "ETE", sem: 3 },
+      { name: "Yamuna R", usn: "1SI25EI061", dept: "EEE", sem: 3 },
+      { name: "Vindya", usn: "1SI25EE061", dept: "EEE", sem: 3 },
+      { name: "Pruthvish", usn: "1SI25EE029", dept: "EEE", sem: 3 },
+      { name: "Manoj S Raju", usn: "1SI25EC060", dept: "ECE", sem: 3 },
+      { name: "Kalyan G L", usn: "4SI26EC046", dept: "ECE", sem: 1 }
+    ];
+
+    const form = document.getElementById("verificationForm");
+    const rejectionCard = document.getElementById("rejectionCard");
+    const loginCard = document.getElementById("loginCard");
+    const welcomeDashboard = document.getElementById("welcomeDashboard");
+    const posterCanvas = document.getElementById("posterCanvas");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const welcomeGreeting = document.getElementById("welcomeGreeting");
+    const memberDetails = document.getElementById("memberDetails");
+
+    // Poster template image filename
+    const POSTER_SRC = "poster_template.png";
+
+    function normalize(str) {
+      return (str || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    }
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const inputName = document.getElementById("studentName").value.trim();
+      const inputUSN = document.getElementById("studentUSN").value.trim();
+
+      const normName = normalize(inputName);
+      const normUSN = normalize(inputUSN);
+
+      const matched = SHORTLISTED_MEMBERS.find(member => {
+        const dbUSN = normalize(member.usn);
+        const dbName = normalize(member.name);
+        return dbUSN === normUSN && (dbName.includes(normName) || normName.includes(dbName));
+      });
+
+      if (matched) {
+        rejectionCard.classList.add("hidden");
+        loginCard.classList.add("hidden");
+        welcomeDashboard.classList.remove("hidden");
+
+        confetti({
+          particleCount: 140,
+          spread: 80,
+          origin: { y: 0.55 }
+        });
+
+        welcomeGreeting.innerText = `Welcome to Team IIC 9.0, ${matched.name}! 🚀`;
+        memberDetails.innerHTML = `
+          <span>👤 USN: ${matched.usn}</span>
+          <span>🎓 Dept: ${matched.dept}</span>
+          <span>📅 Sem: ${matched.sem}</span>
+        `;
+
+        renderPersonalizedPoster(matched.name);
+      } else {
+        rejectionCard.classList.remove("hidden");
+      }
+    });
+
+    function resetForm() {
+      rejectionCard.classList.add("hidden");
+      document.getElementById("studentName").value = "";
+      document.getElementById("studentUSN").value = "";
+      document.getElementById("studentName").focus();
+    }
+
+    /* ============================================================
+       2. DYNAMIC CANVAS POSTER COMPOSER
+       Exact Dashed Box Center:
+       - X = 50.16% (centered inside 75px to 869px border)
+       - Y = 60.83% (centered inside 902px to 1131px border)
+       ============================================================ */
+    function renderPersonalizedPoster(memberName) {
+      const ctx = posterCanvas.getContext("2d");
+      const img = new Image();
+      img.src = POSTER_SRC;
+
+      img.onload = function() {
+        posterCanvas.width = img.naturalWidth;
+        posterCanvas.height = img.naturalHeight;
+
+        // Draw original background template
+        ctx.drawImage(img, 0, 0);
+
+        // Precise center coordinates calculated from the dashed boundary
+        const centerX = posterCanvas.width * 0.5016;
+        const centerY = posterCanvas.height * 0.6083;
+
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#0d254c"; // Team IIC Navy
+
+        // Optimal font scaling for high-resolution 9:16 canvas
+        let fontSize = Math.floor(posterCanvas.width * 0.065);
+        ctx.font = `bold italic ${fontSize}px 'Playfair Display', serif`;
+
+        // Maximum allowable width inside the dashed box (width: 794px out of 941px)
+        const maxBoxWidth = posterCanvas.width * 0.76;
+        while (ctx.measureText(memberName).width > maxBoxWidth && fontSize > 22) {
+          fontSize -= 2;
+          ctx.font = `bold italic ${fontSize}px 'Playfair Display', serif`;
+        }
+
+        // Render candidate name at exact center
+        ctx.fillText(memberName, centerX, centerY);
+
+        // Bind download button
+        downloadBtn.onclick = function() {
+          const link = document.createElement("a");
+          link.download = `Team_IIC_9.0_Welcome_${memberName.replace(/\s+/g, "_")}.png`;
+          link.href = posterCanvas.toDataURL("image/png");
+          link.click();
+        };
+      };
+
+      img.onerror = function() {
+        alert("Poster template image 'poster_template.png' was not found in your folder. Ensure it is placed alongside index.html.");
+      };
+    }
+  </script>
+</body>
+</html>
