@@ -143,18 +143,6 @@
       transform: translateY(-1px);
     }
 
-    .btn-whatsapp {
-      background-color: #25d366;
-      color: #ffffff;
-      margin-top: 14px;
-      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.28);
-    }
-
-    .btn-whatsapp:hover {
-      background-color: #20ba5a;
-      transform: translateY(-1px);
-    }
-
     .btn-download {
       background-color: var(--accent-yellow);
       color: var(--primary-navy);
@@ -349,11 +337,6 @@
       <div class="share-prompt">
         📲 Add this welcome poster to your WhatsApp story and Instagram story!
       </div>
-
-      <!-- WhatsApp Group Join Link -->
-      <a id="whatsappBtn" href="https://chat.whatsapp.com/H7aR2PG53cg3r6p3EBvWMz" target="_blank" class="btn btn-whatsapp">
-        💬 Join Team IIC 9.0 WhatsApp Group
-      </a>
     </div>
   </div>
 
@@ -461,8 +444,8 @@
     /* ============================================================
        2. DYNAMIC CANVAS POSTER COMPOSER
        Exact Dashed Box Center:
-       - X = 50.16% (centered inside 75px to 869px border)
-       - Y = 60.83% (centered inside 902px to 1131px border)
+       - X = 50.16%
+       - Y = 60.83%
        ============================================================ */
     function renderPersonalizedPoster(memberName) {
       const ctx = posterCanvas.getContext("2d");
@@ -488,7 +471,7 @@
         let fontSize = Math.floor(posterCanvas.width * 0.065);
         ctx.font = `bold italic ${fontSize}px 'Playfair Display', serif`;
 
-        // Maximum allowable width inside the dashed box (width: 794px out of 941px)
+        // Maximum allowable width inside the dashed box
         const maxBoxWidth = posterCanvas.width * 0.76;
         while (ctx.measureText(memberName).width > maxBoxWidth && fontSize > 22) {
           fontSize -= 2;
